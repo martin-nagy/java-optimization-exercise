@@ -12,7 +12,7 @@ import org.apache.commons.lang3.time.StopWatch;
 public class MapExercise1 {
     public static void main(String[] args) {
         Random random = new Random(0);
-        List<Name> names = IntStream.range(0, 5_000_000)
+        List<Name> names = IntStream.range(0, 100_000)
                 .mapToObj(i -> new Name(randomLongString(random), randomLongString(random)))
                 .toList();
 
@@ -28,15 +28,19 @@ public class MapExercise1 {
             if (cache.containsKey(name)) {
                 System.out.println(cache.get(name));
             } else {
-                String concat = name.getFirstName() + " " + name.getLastName();
-                cache.put(name, concat);
-                System.out.println(concat);
+                String processedData = process(name);
+                cache.put(name, processedData);
+                System.out.println(processedData);
             }
         }
     }
 
+    private static String process(Name name) {
+        return StringUtils.repeat(name.getFirstName() + " " + name.getLastName() + " ", 1000);
+    }
+
     private static String randomLongString(Random random) {
-        return StringUtils.repeat(random.nextInt(100) + "", 100);
+        return StringUtils.repeat(random.nextInt(10) + "", 10);
     }
 
     private static class Name {
